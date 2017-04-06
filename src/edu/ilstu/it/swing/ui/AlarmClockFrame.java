@@ -7,6 +7,11 @@ package edu.ilstu.it.swing.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -43,4 +48,17 @@ public class AlarmClockFrame extends JFrame {
 		setContentPane(contentPane);
 	}
 
+	private static final String AUDIO_CLIP_PATH = "air_horn.wav";
+
+	public static Clip getAudioClip() {
+		try {
+	        final AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(AUDIO_CLIP_PATH).getAbsoluteFile());
+	        final Clip clip = AudioSystem.getClip();
+	        clip.open(audioInputStream);
+	        return clip;
+	    } catch(Exception ex) {
+	        ex.printStackTrace();
+	    }
+		return null;
+	}
 }
