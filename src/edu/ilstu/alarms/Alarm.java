@@ -12,10 +12,11 @@ import edu.ilstu.it.swing.ui.AlarmClockFrame;
 
 public final class Alarm {
 
-	private final Date date;
+	private Date date;
 	private final Optional<String> message;
 
 	private Timer timer;
+	private int snoozeCount = 0;
 
 	Alarm(final Date date) {
 		this(date, null);
@@ -33,10 +34,26 @@ public final class Alarm {
 				final Clip clip = AlarmClockFrame.getAudioClip();
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
 				// TODO: Swing alert box
-				// Swing alert box should stop the clip and save the new list of alarms (with the current one removed)
+				// Create the swing alert box according to isSnoozed():
+				// 		if isSnoozed() == true should display snoozeCount on the alert box
+				// When it is dismissed it should stop the clip and save the new list of alarms (with the current one removed)
 			}
 		});
 		timer.start();
+	}
+
+	public void snooze() {
+		snoozeCount++;
+		date.setTime(date.getTime() + 1000 * 60); // Adds a minute to the date
+		startTimer();
+	}
+
+	public int getSnoozeCount() {
+		return snoozeCount;
+	}
+
+	public boolean isSnoozed() {
+		return getSnoozeCount() > 0;
 	}
 
 	public Date getDate() {
