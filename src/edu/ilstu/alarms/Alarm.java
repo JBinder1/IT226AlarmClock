@@ -1,14 +1,26 @@
-/**
- * Project: IT226GroupProject2
- * @author Jarred/Jerry Binder
- * Created Apr 6, 2017 12:21:02 PM
- */
 package edu.ilstu.alarms;
 
-/**
- * @author jarre
- *
- */
+import java.util.Optional;
+
 public class Alarm {
 
+	private final String rawDate;
+	private final Optional<String> message;
+
+	public Alarm(final String rawDate) {
+		this(rawDate, null);
+	}
+
+	public Alarm(final String rawDate, final String message) {
+		this.rawDate = rawDate;
+		this.message = Optional.ofNullable(message);
+	}
+
+	public String getRawDate() {
+		return rawDate;
+	}
+
+	public Optional<String> getMessage() {
+		return message;
+	}
 }
