@@ -16,8 +16,8 @@ public final class AlarmIO {
 			final List<String> lines = Files.readAllLines(Paths.get(PATH));
 			for (final String line : lines) {
 				final String[] split = line.split(",");
-				final Alarm alarm = split.length == 1 ? new Alarm(split[0]) : new Alarm(split[0], split[1]);
-				alarms.add(alarm);
+				final long time = Long.parseLong(split[0]);
+				alarms.add(split.length == 1 ? AlarmFactory.createAlarm(time) : AlarmFactory.createAlarm(time, split[1]));
 			}
 		} catch (final IOException e) {
 			e.printStackTrace();
@@ -29,7 +29,8 @@ public final class AlarmIO {
 	public static void saveAlarms(final List<Alarm> alarms) {
 		final List<String> lines = new ArrayList<>();
 		for (final Alarm alarm : alarms) {
-			final StringBuilder builder = new StringBuilder(alarm.getRawDate());
+			final StringBuilder builder = new StringBuilder();
+			builder.append(alarm.getDate().getTime());
 			if (alarm.getMessage().isPresent())
 				builder.append(',').append(alarm.getMessage().get());
 			lines.add(builder.toString());

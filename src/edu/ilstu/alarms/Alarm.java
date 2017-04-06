@@ -3,16 +3,16 @@ package edu.ilstu.alarms;
 import java.util.Date;
 import java.util.Optional;
 
-public class Alarm {
+public final class Alarm {
 
 	private final Date date;
 	private final Optional<String> message;
 
-	public Alarm(final Date date) {
+	Alarm(final Date date) {
 		this(date, null);
 	}
 
-	public Alarm(final Date date, final String message) {
+	Alarm(final Date date, final String message) {
 		this.date = date;
 		this.message = Optional.ofNullable(message);
 	}
