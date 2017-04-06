@@ -12,7 +12,7 @@ import edu.ilstu.it.swing.ui.AlarmClockFrame;
 
 public final class Alarm {
 
-	private Date date;
+	private final Date date;
 	private final Optional<String> message;
 
 	private Timer timer;
