@@ -33,8 +33,7 @@ public final class AlarmIO {
 			for (final String line : lines) {
 				final String[] split = line.split(",");
 				final long time = Long.parseLong(split[0]);
-				// FIXME: broken if message contains comma
-				alarms.add(split.length == 1 ? AlarmFactory.createAlarm(time) : AlarmFactory.createAlarm(time, split[1]));
+				alarms.add(split.length == 1 ? AlarmFactory.createAlarm(time) : AlarmFactory.createAlarm(time, line.substring(split[0].length() + 1)));
 			}
 		} catch (final IOException e) {
 			e.printStackTrace();
