@@ -1,7 +1,7 @@
 # IT226AlarmClock
 Group Project 2 - Alarms using Java Swing
 
-#To-Do#
+## To-Do
 
 Jarred
 * Make AlarmSetup and StopwatchSetup create new Alarms
