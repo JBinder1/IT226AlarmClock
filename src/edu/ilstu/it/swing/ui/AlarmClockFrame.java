@@ -22,9 +22,9 @@ import java.util.Date;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.BorderLayout;
 
 public class AlarmClockFrame extends JFrame {
 	
@@ -53,65 +53,51 @@ public class AlarmClockFrame extends JFrame {
 	public AlarmClockFrame() {
 		setTitle("Alarm Clock");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 293);
+		setBounds(100, 100, 500, 325);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		Label labelCurrentTime = new Label("00:00:00 AM");
-		contentPane.add(labelCurrentTime);
+		Label labelCurrentTime = new Label("Jan 1 1970 00:00:00 AM");
+		contentPane.add(labelCurrentTime, BorderLayout.NORTH);
 		labelCurrentTime.setFont(new Font("Dialog", Font.PLAIN, 40));
 		labelCurrentTime.setAlignment(Label.CENTER);
-		
-		// Sets up a label that displays current time, and refreshes every second.
-		Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	labelCurrentTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
-            }
-        });
-		timer.setRepeats(true);
-        timer.setCoalesce(true);
-        timer.setInitialDelay(1000);
-        timer.start();
+		this.startClock(labelCurrentTime);
 		
 		JPanel panelButtons = new JPanel();
-		contentPane.add(panelButtons);
+		contentPane.add(panelButtons, BorderLayout.SOUTH);
+		panelButtons.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnCreateNewAlarm = new JButton("Create New Alarm");
-		btnCreateNewAlarm.setBounds(10, 0, 125, 23);
-		btnCreateNewAlarm.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO have this open an AlarmSetup
-			}
-		});
-		panelButtons.setLayout(null);
 		panelButtons.add(btnCreateNewAlarm);
 		
 		JButton btnCreateNewStopwatch = new JButton("Create New Stopwatch");
+		panelButtons.add(btnCreateNewStopwatch, BorderLayout.NORTH);
+		
+		JButton btnExit = new JButton("Exit");
+		panelButtons.add(btnExit, BorderLayout.SOUTH);
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnCreateNewStopwatch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCreateNewStopwatch.setBounds(20, 34, 150, 23);
 		btnCreateNewStopwatch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO have this open a StopwatchSetup
 			}
 		});
-		panelButtons.add(btnCreateNewStopwatch);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.setBounds(27, 73, 89, 23);
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+		btnCreateNewAlarm.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO have this open an AlarmSetup
 			}
 		});
-		panelButtons.add(btnExit);
 	}
 
 	private static final String AUDIO_CLIP_PATH = "air_horn.wav";
@@ -126,5 +112,24 @@ public class AlarmClockFrame extends JFrame {
 	        ex.printStackTrace();
 	    }
 		return null;
+	}
+	
+	/**
+	 * Initializes the clock at the top of this JFrame that displays current time.
+	 * This uses a Timer to update it every second with the current time.
+	 * @param labelCurrentTime
+	 */
+	private void startClock(Label labelCurrentTime){
+		// Sets up a label that displays current time, and refreshes every second.
+		Timer timer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				labelCurrentTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
+			}
+		});
+		timer.setRepeats(true);
+		timer.setCoalesce(true);
+		timer.setInitialDelay(0);
+		timer.start();
 	}
 }
