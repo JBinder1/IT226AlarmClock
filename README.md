@@ -8,3 +8,8 @@ Jarred
 * Make AlarmClockFrame look nice
 * Make AlarmClockFrame's buttons open up their respective Dialogs
 * Add documentation and descriptive comments to the Swing .java files
+
+Anyone
+* Write class for XML I/O.
+** javax.xml.parsers libraries are a thing
+** This would make porting this code to Android a million times easier.
