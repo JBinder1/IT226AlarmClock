@@ -1,30 +1,32 @@
-package edu.ilstu.alarms;
+package edu.ilstu.it.alarms;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.sound.sampled.Clip;
 import javax.swing.Timer;
+import javax.xml.bind.annotation.*;
 
 import edu.ilstu.it.swing.ui.AlarmClockFrame;
 
+@XmlRootElement(name = "alarm")
 public final class Alarm {
 
-	private final Date date;
-	private final Optional<String> message;
+	@XmlAttribute
+	private Date date;
+	@XmlElement
+	private String message;
 
 	private Timer timer;
 	private int snoozeCount = 0;
 
-	Alarm(final Date date) {
-		this(date, null);
+	private Alarm() {
 	}
 
 	Alarm(final Date date, final String message) {
 		this.date = date;
-		this.message = Optional.ofNullable(message);
+		this.message = message;
 	}
 
 	public void startTimer() {
@@ -48,20 +50,20 @@ public final class Alarm {
 		startTimer();
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
 	public int getSnoozeCount() {
 		return snoozeCount;
 	}
 
 	public boolean isSnoozed() {
 		return getSnoozeCount() > 0;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public Optional<String> getMessage() {
-		return message;
 	}
 
 	public Timer getTimer() {
