@@ -1,4 +1,4 @@
-package edu.ilstu.alarms;
+package edu.ilstu.it.alarms;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

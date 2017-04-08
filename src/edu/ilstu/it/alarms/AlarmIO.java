@@ -1,4 +1,4 @@
-package edu.ilstu.alarms;
+package edu.ilstu.it.alarms;
 
 import java.io.IOException;
 import java.nio.file.Files;
