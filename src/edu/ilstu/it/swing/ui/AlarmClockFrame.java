@@ -84,18 +84,13 @@ public class AlarmClockFrame extends JFrame {
 		});
 		btnCreateNewStopwatch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new StopwatchSetup().setVisible(true);
 			}
 		});
-		btnCreateNewStopwatch.addMouseListener(new MouseAdapter() {
+		btnCreateNewAlarm.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO have this open a StopwatchSetup
-			}
-		});
-		btnCreateNewAlarm.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO have this open an AlarmSetup
+			public void actionPerformed(ActionEvent e) {
+				new AlarmSetup().setVisible(true);
 			}
 		});
 	}
