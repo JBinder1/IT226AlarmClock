@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * @author jarre
@@ -64,6 +66,12 @@ public class AlarmSetup extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
