@@ -28,8 +28,8 @@ public class AlarmSetup extends JDialog {
 	private JTextField textFieldDay;
 	private JTextField textFieldMonth;
 	private JTextField textFieldYear;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textFieldHour;
+	private JTextField textFieldMinute;
 
 	/**
 	 * Launch the application.
@@ -123,16 +123,16 @@ public class AlarmSetup extends JDialog {
 		rdbtnPm.setBounds(65, 7, 39, 23);
 		panelRadio.add(rdbtnPm);
 		{
-			textField_2 = new JTextField();
-			textField_2.setBounds(235, 8, 86, 20);
-			panel_1.add(textField_2);
-			textField_2.setColumns(10);
+			textFieldHour = new JTextField();
+			textFieldHour.setBounds(235, 8, 86, 20);
+			panel_1.add(textFieldHour);
+			textFieldHour.setColumns(10);
 		}
 		{
-			textField_3 = new JTextField();
-			textField_3.setBounds(235, 39, 86, 20);
-			panel_1.add(textField_3);
-			textField_3.setColumns(10);
+			textFieldMinute = new JTextField();
+			textFieldMinute.setBounds(235, 39, 86, 20);
+			panel_1.add(textFieldMinute);
+			textFieldMinute.setColumns(10);
 		}
 		
 		JLabel lblHour = new JLabel("Hour:");
