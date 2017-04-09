@@ -25,10 +25,6 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.awt.event.ActionEvent;
 
-/**
- * @author jarre
- *
- */
 public class AlarmSetup extends JDialog {
 
 	private static final long serialVersionUID = 1L;

@@ -21,10 +21,6 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-/**
- * @author jarre
- *
- */
 public class StopwatchSetup extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -36,9 +32,13 @@ public class StopwatchSetup extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		StopwatchSetup dialog = new StopwatchSetup();
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setVisible(true);
+		try{
+			StopwatchSetup dialog = new StopwatchSetup();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -65,10 +65,10 @@ public class StopwatchSetup extends JDialog {
 			textFieldMinutes.setColumns(15);
 		}
 		{
-			JLabel lblCustomMessageoptional = new JLabel("Custom Message (optional):");
-			lblCustomMessageoptional.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblCustomMessageoptional.setBounds(14, 44, 170, 14);
-			contentPanel.add(lblCustomMessageoptional);
+			JLabel lblCustomMessage = new JLabel("Custom Message (optional):");
+			lblCustomMessage.setHorizontalAlignment(SwingConstants.RIGHT);
+			lblCustomMessage.setBounds(14, 44, 170, 14);
+			contentPanel.add(lblCustomMessage);
 		}
 		{
 			textFieldCustomMessage = new JTextField();
