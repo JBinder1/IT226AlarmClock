@@ -50,7 +50,7 @@ public class AlarmSetup extends JDialog {
 	public AlarmSetup() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Alarm Setup");
-		setBounds(100, 100, 350, 196);
+		setBounds(100, 100, 400, 200);
 		getContentPane().setLayout(new BorderLayout());
 		{
 			JPanel buttonPane = new JPanel();
@@ -78,71 +78,71 @@ public class AlarmSetup extends JDialog {
 		panel_1.setLayout(null);
 		{
 			JLabel lblDay = new JLabel("Day:");
-			lblDay.setBounds(37, 11, 23, 14);
+			lblDay.setBounds(10, 11, 70, 14);
 			panel_1.add(lblDay);
 			lblDay.setHorizontalAlignment(SwingConstants.RIGHT);
 		}
 		
 		textFieldDay = new JTextField();
-		textFieldDay.setBounds(70, 8, 86, 20);
+		textFieldDay.setBounds(90, 8, 86, 20);
 		panel_1.add(textFieldDay);
 		textFieldDay.setColumns(10);
 		{
 			JLabel lblMonth = new JLabel("Month(#):");
-			lblMonth.setBounds(10, 42, 50, 14);
+			lblMonth.setBounds(10, 42, 70, 14);
 			panel_1.add(lblMonth);
 			lblMonth.setHorizontalAlignment(SwingConstants.RIGHT);
 		}
 		
 		textFieldMonth = new JTextField();
-		textFieldMonth.setBounds(70, 39, 86, 20);
+		textFieldMonth.setBounds(90, 39, 86, 20);
 		panel_1.add(textFieldMonth);
 		textFieldMonth.setColumns(10);
 		
 		JLabel lblYear = new JLabel("Year:");
-		lblYear.setBounds(34, 73, 26, 14);
+		lblYear.setBounds(10, 73, 70, 14);
 		panel_1.add(lblYear);
 		lblYear.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textFieldYear = new JTextField();
-		textFieldYear.setBounds(70, 70, 86, 20);
+		textFieldYear.setBounds(90, 70, 86, 20);
 		panel_1.add(textFieldYear);
 		textFieldYear.setColumns(10);
 		
 		JPanel panelRadio = new JPanel();
 		panelRadio.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelRadio.setBounds(189, 73, 114, 34);
+		panelRadio.setBounds(224, 73, 150, 47);
 		panel_1.add(panelRadio);
 		panelRadio.setLayout(null);
 		
 		JRadioButton rdbtnAm = new JRadioButton("AM");
-		rdbtnAm.setBounds(6, 7, 41, 23);
+		rdbtnAm.setBounds(6, 7, 74, 33);
 		panelRadio.add(rdbtnAm);
 		
 		JRadioButton rdbtnPm = new JRadioButton("PM");
-		rdbtnPm.setBounds(65, 7, 39, 23);
+		rdbtnPm.setBounds(82, 7, 62, 33);
 		panelRadio.add(rdbtnPm);
 		{
 			textFieldHour = new JTextField();
-			textFieldHour.setBounds(235, 8, 86, 20);
+			textFieldHour.setBounds(288, 8, 86, 20);
 			panel_1.add(textFieldHour);
 			textFieldHour.setColumns(10);
 		}
 		{
 			textFieldMinute = new JTextField();
-			textFieldMinute.setBounds(235, 39, 86, 20);
+			textFieldMinute.setBounds(288, 39, 86, 20);
 			panel_1.add(textFieldMinute);
 			textFieldMinute.setColumns(10);
 		}
 		
 		JLabel lblHour = new JLabel("Hour:");
 		lblHour.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblHour.setBounds(179, 11, 46, 14);
+		lblHour.setBounds(186, 11, 92, 14);
 		panel_1.add(lblHour);
 		
 		JLabel lblMinute = new JLabel("Minute:");
 		lblMinute.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMinute.setBounds(179, 42, 46, 14);
+		lblMinute.setBounds(186, 42, 92, 14);
 		panel_1.add(lblMinute);
 	}
 }

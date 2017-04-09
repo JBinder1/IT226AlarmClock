@@ -47,32 +47,32 @@ public class StopwatchSetup extends JDialog {
 	public StopwatchSetup() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Stopwatch Setup");
-		setBounds(100, 100, 434, 148);
+		setBounds(100, 100, 550, 148);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			JLabel lblAlarmTimein = new JLabel("Stopwatch Time (in minutes):");
-			lblAlarmTimein.setBounds(14, 13, 139, 14);
+			lblAlarmTimein.setBounds(14, 13, 170, 14);
 			lblAlarmTimein.setHorizontalAlignment(SwingConstants.RIGHT);
 			contentPanel.add(lblAlarmTimein);
 		}
 		{
 			textFieldMinutes = new JTextField();
-			textFieldMinutes.setBounds(156, 10, 90, 20);
+			textFieldMinutes.setBounds(194, 10, 111, 20);
 			contentPanel.add(textFieldMinutes);
 			textFieldMinutes.setColumns(15);
 		}
 		{
 			JLabel lblCustomMessageoptional = new JLabel("Custom Message (Optional):");
 			lblCustomMessageoptional.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblCustomMessageoptional.setBounds(12, 44, 141, 14);
+			lblCustomMessageoptional.setBounds(14, 44, 170, 14);
 			contentPanel.add(lblCustomMessageoptional);
 		}
 		{
 			textFieldCustomMessage = new JTextField();
-			textFieldCustomMessage.setBounds(156, 41, 250, 20);
+			textFieldCustomMessage.setBounds(194, 41, 330, 20);
 			contentPanel.add(textFieldCustomMessage);
 			textFieldCustomMessage.setColumns(10);
 		}
