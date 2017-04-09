@@ -84,18 +84,20 @@ public class StopwatchSetup extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						int minutes = 0;
-						String message = textFieldCustomMessage.getText();
-						
 						// User can submit this without a message, but they must have something in minutes
 						if(!textFieldMinutes.getText().isEmpty()){
+							int minutes = 0;
+							String message = textFieldCustomMessage.getText();
+							
 							try{
 								minutes = Integer.parseInt(textFieldMinutes.getText());
 							}catch(Exception e){
 								e.printStackTrace();
 							}
+							
 							// TODO have this createAlarm call put alarms wherever alarms go
 							AlarmFactory.createAlarm(minutes, message);
+							
 							// This popup dialog won't close unless something's 
 							// been entered in the minutes text field
 							setVisible(false);
