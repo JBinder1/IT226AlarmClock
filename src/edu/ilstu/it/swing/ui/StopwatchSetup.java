@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import edu.ilstu.it.alarms.AlarmFactory;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -27,19 +30,15 @@ public class StopwatchSetup extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldMinutes;
-	private JTextField textField;
+	private JTextField textFieldCustomMessage;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
-			StopwatchSetup dialog = new StopwatchSetup();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		StopwatchSetup dialog = new StopwatchSetup();
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
 	}
 
 	/**
@@ -72,10 +71,10 @@ public class StopwatchSetup extends JDialog {
 			contentPanel.add(lblCustomMessageoptional);
 		}
 		{
-			textField = new JTextField();
-			textField.setBounds(156, 41, 250, 20);
-			contentPanel.add(textField);
-			textField.setColumns(10);
+			textFieldCustomMessage = new JTextField();
+			textFieldCustomMessage.setBounds(156, 41, 250, 20);
+			contentPanel.add(textFieldCustomMessage);
+			textFieldCustomMessage.setColumns(10);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -85,8 +84,20 @@ public class StopwatchSetup extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						// TODO have this create a new stopwatch with the # of minutes entered
-						// TODO and then close this window
+						int minutes = 0;
+						String message = textFieldCustomMessage.getText();
+						
+						if(textFieldMinutes.getText() != ""){
+							try{
+								minutes = Integer.parseInt(textFieldMinutes.getText());
+							}catch(Exception e){
+								e.printStackTrace();
+							}
+						}
+						AlarmFactory.createAlarm(minutes, message);
+						// TODO have this createAlarm call put alarms wherever alarms go
+						setVisible(false);
+						dispose();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -95,6 +106,12 @@ public class StopwatchSetup extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						setVisible(false);
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
