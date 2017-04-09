@@ -65,7 +65,7 @@ public class StopwatchSetup extends JDialog {
 			textFieldMinutes.setColumns(15);
 		}
 		{
-			JLabel lblCustomMessageoptional = new JLabel("Custom Message (Optional):");
+			JLabel lblCustomMessageoptional = new JLabel("Custom Message (optional):");
 			lblCustomMessageoptional.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblCustomMessageoptional.setBounds(14, 44, 170, 14);
 			contentPanel.add(lblCustomMessageoptional);
@@ -87,19 +87,23 @@ public class StopwatchSetup extends JDialog {
 						int minutes = 0;
 						String message = textFieldCustomMessage.getText();
 						
-						if(textFieldMinutes.getText() != ""){
+						// User can submit this without a message, but they must have something in minutes
+						if(!textFieldMinutes.getText().isEmpty()){
 							try{
 								minutes = Integer.parseInt(textFieldMinutes.getText());
 							}catch(Exception e){
 								e.printStackTrace();
 							}
+							// TODO have this createAlarm call put alarms wherever alarms go
+							AlarmFactory.createAlarm(minutes, message);
+							// This popup dialog won't close unless something's 
+							// been entered in the minutes text field
+							setVisible(false);
+							dispose();
 						}
-						AlarmFactory.createAlarm(minutes, message);
-						// TODO have this createAlarm call put alarms wherever alarms go
-						setVisible(false);
-						dispose();
 					}
 				});
+				
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
