@@ -91,8 +91,6 @@ public class StopwatchSetup extends JDialog {
 								AlarmFactory.createAlarm(Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText());
 							}catch(Exception e){ e.printStackTrace(); }
 							
-							// This popup dialog won't close unless something's 
-							// been entered in the minutes text field
 							setVisible(false);
 							dispose();
 						}
