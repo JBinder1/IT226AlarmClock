@@ -1,6 +1,6 @@
 /**
  * Project: IT226GroupProject2
- * @author Jarred/Jerry Binder
+ * @author Jarred Binder
  * Created Apr 6, 2017 1:40:19 PM
  */
 package edu.ilstu.it.swing.ui;
@@ -8,19 +8,16 @@ package edu.ilstu.it.swing.ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import edu.ilstu.it.alarms.Alarm;
+import edu.ilstu.it.alarms.AlarmFactory;
 
 import javax.swing.JLabel;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
@@ -30,6 +27,11 @@ public class AlarmEnd extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
+	private JLabel lblSnoozedTimes;
+	private JLabel lblAlarmDetails;
+	private JTextArea textAreaCustomMessage;
+	private Alarm alarm;
+	
 
 	/**
 	 * Launch the application.
@@ -48,7 +50,6 @@ public class AlarmEnd extends JDialog {
 	 * Create the dialog.
 	 */
 	public AlarmEnd() {
-		
 		setTitle("Alarm - Time's Up!");
 		setBounds(100, 100, 484, 163);
 		getContentPane().setLayout(new BorderLayout());
@@ -56,26 +57,26 @@ public class AlarmEnd extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblSnoozedTimes = new JLabel("You've Snoozed This Alarm " + alarm.getSnoozeCount() + " Times");
+		// Plays an alarm clip until the window is closed
+		final Clip clip = AlarmClockFrame.getAudioClip();
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		
+		lblSnoozedTimes = new JLabel("You've Snoozed This Alarm 0 Times");
 		lblSnoozedTimes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSnoozedTimes.setVisible(false);
 		contentPanel.add(lblSnoozedTimes, BorderLayout.SOUTH);
-		if(alarm.getSnoozeCount() > 0){
-			lblSnoozedTimes.setVisible(true);
-		}
 		
-		JLabel lblAlarmDetails = new JLabel("This Alarm was set to go off at: " + alarm.getDate().toString());
+		
+		lblAlarmDetails = new JLabel("This Alarm was set to go off at: ");
 		lblAlarmDetails.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPanel.add(lblAlarmDetails, BorderLayout.CENTER);
 		
-		JTextArea textAreaCustomMessage = new JTextArea(alarm.getMessage());
+		textAreaCustomMessage = new JTextArea();
 		textAreaCustomMessage.setEditable(false);
 		contentPanel.add(textAreaCustomMessage, BorderLayout.NORTH);
 		textAreaCustomMessage.setVisible(false);
-		if(!alarm.getMessage().isEmpty()){
-			textAreaCustomMessage.setVisible(true);
-		}
 		
+		// If we want to use a label to display the message instead of a TextArea
 //		JLabel lblCustomMessage = new JLabel(alarm.getMessage());
 //		lblCustomMessage.setHorizontalAlignment(SwingConstants.CENTER);
 //		lblCustomMessage.setVisible(false);
@@ -91,7 +92,11 @@ public class AlarmEnd extends JDialog {
 		JButton btnDismiss = new JButton("Dismiss Alarm");
 		btnDismiss.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO end alarm, stop sound, remove from alarm storage, close this window
+				// TODO end alarm, stop sound, remove from alarms.xml
+				AlarmFactory.deleteAlarm(alarm);
+				clip.close();
+				setVisible(false);
+				dispose();
 			}
 		});
 		btnDismiss.setActionCommand("OK");
@@ -100,11 +105,29 @@ public class AlarmEnd extends JDialog {
 		JButton btnSnooze = new JButton("Snooze (1 Minute)");
 		btnSnooze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO add to the alarm's snoozed counter, hide/close this window and pause sound for 1 minute via timer
+				clip.close();
+				if(AlarmFactory.alarmStorage.contains(alarm))
+					AlarmFactory.alarmStorage.get(AlarmFactory.alarmStorage.indexOf(alarm));
+				setVisible(false);
+				dispose();
 			}
 		});
 		buttonPane.add(btnSnooze);
 		getRootPane().setDefaultButton(btnSnooze);
+	}
+	
+	public void displayAlarm(Alarm alarm){
+		this.alarm = alarm;
+		
+		if(alarm.getSnoozeCount() > 0){
+			lblSnoozedTimes.setVisible(true);
+			lblSnoozedTimes.setText("You've Snoozed This Alarm " + alarm.getSnoozeCount() + " Times");
+		}
+		
+		if(!alarm.getMessage().isEmpty()){
+			textAreaCustomMessage.setText("This Alarm was set to go off at: " + alarm.getDate().toString());
+			textAreaCustomMessage.setVisible(true);
+		}
 	}
 
 }
