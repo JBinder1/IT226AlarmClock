@@ -20,6 +20,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.border.TitledBorder;
 
 import edu.ilstu.it.alarms.AlarmFactory;
+import edu.ilstu.it.alarms.AlarmIO;
 
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -112,8 +113,11 @@ public class AlarmSetup extends JDialog {
 					String rawDate = month + " " + day + " " + year + " " + hour + ":" + textFieldMinute.getText() + " " + amPm;
 					
 					try {
-						AlarmFactory.createAlarm(rawDate, textFieldMessage.getText());
-					} catch (Exception e1) { e1.printStackTrace(); }
+						AlarmClockFrame.getInstance().addAlarm(AlarmFactory.createAlarm(rawDate, textFieldMessage.getText()));
+						AlarmIO.saveAlarms(AlarmClockFrame.getInstance().getAlarms());
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 							
 					setVisible(false);
 					dispose();

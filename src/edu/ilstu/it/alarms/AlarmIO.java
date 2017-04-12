@@ -8,42 +8,46 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class which handles the input and output of Alarms.
+ */
 public final class AlarmIO {
 
+	/**
+	 * The path the alarms are loaded and saved from.
+	 */
 	private static final String PATH = "alarms.xml";
 
-	public static void main(final String[] args) throws InterruptedException {
-		List<Alarm> alarms = new ArrayList<>();
-		alarms.add(AlarmFactory.createAlarm(1, "Alarm one!"));
-		alarms.add(AlarmFactory.createAlarm(2));
-		
-		saveAlarms(alarms);
-		
-		alarms = loadAlarms();
-		for (final Alarm alarm : alarms)
-			alarm.startTimer();
-
-		for (;;)
-			Thread.sleep(100);
-	}
-
+	/**
+	 * Loads alarms from the constant PATH, creating a new dummy XML is the PATH doesn't exist.
+	 * @return The loaded alarms.
+	 */
 	public static List<Alarm> loadAlarms() {
 		try {
 			final JAXBContext jaxbContext = JAXBContext.newInstance(Alarms.class);
 			final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			final Alarms alarms = (Alarms) jaxbUnmarshaller.unmarshal( new File(PATH) );
+			final File file = new File(PATH);
+			if (!file.exists() && file.createNewFile())
+				try (final BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+					writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<alarms/>\n\n");
+				}
+			final Alarms alarms = (Alarms) jaxbUnmarshaller.unmarshal(file);
 			return alarms.getAlarms();
-		} catch (final JAXBException e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
-	// TODO: remember to save to file after each new alarm is made
+	/**
+	 * Saves the specified alarms to the constant PATH.
+	 */
 	public static void saveAlarms(final List<Alarm> alarms) {
 		try {
 			final File file = new File(PATH);
@@ -56,6 +60,9 @@ public final class AlarmIO {
 		}
 	}
 
+	/**
+	 * A dummy class used by JAXB for XML input/output.
+	 */
 	@XmlRootElement(name = "alarms")
 	@XmlAccessorType(XmlAccessType.FIELD)
 	private static class Alarms {

@@ -17,23 +17,32 @@ import javax.swing.border.EmptyBorder;
 
 import edu.ilstu.it.alarms.Alarm;
 import edu.ilstu.it.alarms.AlarmFactory;
+import edu.ilstu.it.alarms.AlarmIO;
 
 import java.awt.Label;
 import java.awt.Font;
 import javax.swing.Timer;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
+import java.util.List;
 import javax.swing.JTable;
 
 public class AlarmClockFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+	private static AlarmClockFrame SINGLETON;
 	private JPanel contentPane;
-	
+
+	/**
+	 * The list of all active alarms.
+	 */
+	private List<Alarm> alarms;
+
 	/**
 	 * Launch the application.
 	 */
@@ -54,6 +63,7 @@ public class AlarmClockFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public AlarmClockFrame() {
+		SINGLETON = this;
 		setTitle("Alarm Clock");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 325);
@@ -90,9 +100,9 @@ public class AlarmClockFrame extends JFrame {
 		Timer tableTimer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String[][] data = new String[AlarmFactory.alarmStorage.size()][2];
+				String[][] data = new String[alarms.size()][2];
 				int i = 0;
-				for(Alarm al : AlarmFactory.alarmStorage){
+				for(Alarm al : alarms){
 					data[i][0] = al.getDate().toString();
 					data[i][1] = al.getMessage();
 					i++;
@@ -105,7 +115,8 @@ public class AlarmClockFrame extends JFrame {
 		tableTimer.setInitialDelay(0);
 		tableTimer.start();
 		panel.add(table);
-		
+
+		final AlarmClockFrame frame = this;
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -122,11 +133,25 @@ public class AlarmClockFrame extends JFrame {
 				new AlarmSetup().setVisible(true);
 			}
 		});
+
+		alarms = AlarmIO.loadAlarms();
+		if (alarms == null)
+			alarms = new ArrayList<>();
+		for (final Alarm alarm : alarms)
+			alarm.startTimer();
 	}
 
+	/**
+	 * The path to the audio clip.
+	 */
 	private static final String AUDIO_CLIP_PATH = "air_horn.wav";
+
 	private JTable table;
 
+	/**
+	 * Loads the audio clip from the file located at AUDIO_CLIP_PATH and creates it into a Clip.
+	 * @return The audio clip.
+	 */
 	public static Clip getAudioClip() {
 		try {
 	        final AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(AUDIO_CLIP_PATH).getAbsoluteFile());
@@ -156,5 +181,39 @@ public class AlarmClockFrame extends JFrame {
 		clockTimer.setCoalesce(true);
 		clockTimer.setInitialDelay(0);
 		clockTimer.start();
+	}
+
+	/**
+	 * Gets the alarms.
+	 * @return The alarms.
+	 */
+	public List<Alarm> getAlarms() {
+		return alarms;
+	}
+
+	/**
+	 * Adds the specified alarm.
+	 * @param alarm The alarm.
+	 * @return True
+	 */
+	public boolean addAlarm(final Alarm alarm) {
+		return alarms.add(alarm);
+	}
+
+	/**
+	 * Adds the specified alarm.
+	 * @param alarm The alarm.
+	 * @return If the alarm was removed.
+	 */
+	public boolean removeAlarm(final Alarm alarm) {
+		return alarms.remove(alarm);
+	}
+
+	/**
+	 * Gets the singleton.
+	 * @return The singleton.
+	 */
+	public static AlarmClockFrame getInstance() {
+		return SINGLETON;
 	}
 }

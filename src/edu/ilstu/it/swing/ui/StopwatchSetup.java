@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import edu.ilstu.it.alarms.AlarmFactory;
+import edu.ilstu.it.alarms.AlarmIO;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -81,9 +82,12 @@ public class StopwatchSetup extends JDialog {
 				// User can submit this without a message, but they must have something in minutes
 				if(!textFieldMinutes.getText().isEmpty()){
 					try{
-						AlarmFactory.createStopwatch(Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText());
-					}catch(Exception e){ e.printStackTrace(); }
-					
+						AlarmClockFrame.getInstance().addAlarm(AlarmFactory.createAlarm(
+								Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText()));
+						AlarmIO.saveAlarms(AlarmClockFrame.getInstance().getAlarms());
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 					setVisible(false);
 					dispose();
 				}

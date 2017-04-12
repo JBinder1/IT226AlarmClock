@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import edu.ilstu.it.alarms.Alarm;
 import edu.ilstu.it.alarms.AlarmFactory;
+import edu.ilstu.it.alarms.AlarmIO;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -37,7 +38,7 @@ public class AlarmEnd extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			AlarmEnd dialog = new AlarmEnd();
+			AlarmEnd dialog = new AlarmEnd(new AlarmClockFrame());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -48,7 +49,7 @@ public class AlarmEnd extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AlarmEnd() {
+	public AlarmEnd(final AlarmClockFrame frame) {
 		alarm = null;
 		
 		setTitle("Alarm - Time's Up!");
@@ -88,7 +89,8 @@ public class AlarmEnd extends JDialog {
 		btnDismiss.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO end alarm, stop sound, remove from alarms.xml
-				AlarmFactory.deleteAlarm(alarm);
+				frame.removeAlarm(alarm);
+				AlarmIO.saveAlarms(frame.getAlarms());
 				clip.close();	// Ends clip playback immediately
 				setVisible(false);
 				dispose();
@@ -101,8 +103,8 @@ public class AlarmEnd extends JDialog {
 		btnSnooze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clip.close();	// Ends clip playback immediately
-				if(AlarmFactory.alarmStorage.contains(alarm))
-					AlarmFactory.alarmStorage.get(AlarmFactory.alarmStorage.indexOf(alarm)).snooze();
+				alarm.snooze();
+				AlarmIO.saveAlarms(frame.getAlarms());
 				setVisible(false);
 				dispose();
 			}
