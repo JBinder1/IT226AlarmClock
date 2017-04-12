@@ -21,6 +21,10 @@ public final class Alarm {
 	private Timer timer;
 	private int snoozeCount = 0;
 
+	Alarm(){
+		
+	}
+	
 	Alarm(final Date date, final String message) {
 		this.date = date;
 		this.message = message;
@@ -30,13 +34,8 @@ public final class Alarm {
 		timer = new Timer((int) (date.getTime() - new Date().getTime()), new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				final Clip clip = AlarmClockFrame.getAudioClip();
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
-				// TODO: Swing alert box
-				// Create the swing alert box according to isSnoozed():
-				// 		if isSnoozed() == true should display snoozeCount on the alert box
-				// When it is dismissed it should stop the clip and save the new list of alarms (with the current one removed)
-				
+//				final Clip clip = AlarmClockFrame.getAudioClip();
+//				clip.loop(Clip.LOOP_CONTINUOUSLY);				
 			}
 		});
 		timer.start();

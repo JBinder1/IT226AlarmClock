@@ -34,9 +34,9 @@ public class AlarmEnd extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(Alarm alarm) {
+	public static void main(String[] args) {
 		try {
-			AlarmEnd dialog = new AlarmEnd(alarm);
+			AlarmEnd dialog = new AlarmEnd();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class AlarmEnd extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AlarmEnd(Alarm alarm) {
+	public AlarmEnd() {
 		
 		setTitle("Alarm - Time's Up!");
 		setBounds(100, 100, 484, 163);

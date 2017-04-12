@@ -9,7 +9,7 @@ import java.util.Date;
 public final class AlarmFactory {
 
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM d yyyy HH:mm a");
-	private static ArrayList<Alarm> alarmStorage = new ArrayList<Alarm>();
+	public static ArrayList<Alarm> alarmStorage = new ArrayList<Alarm>();
 	
 	/*
 	 * Alarm Methods
@@ -53,5 +53,9 @@ public final class AlarmFactory {
 	
 	public static Alarm createStopwatch(final int delayMinutes) {
 		return createAlarm(delayMinutes, null);
+	}
+	
+	public static void deleteAlarm(Alarm alarm){
+		alarmStorage.remove(alarm);
 	}
 }
