@@ -1,5 +1,12 @@
 /**
+ * AlarmClockFrame JFrame
  * Project: IT226GroupProject2
+ * 
+ * The main menu of the Alarm Clock program.
+ * Contains a button for each function of the
+ * program. Attempts to load alarms from XML
+ * storage on launch.
+ * 
  * @author Jarred Binder
  * Created Apr 6, 2017 12:19:38 PM
  */
@@ -29,7 +36,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.util.List;
-import javax.swing.JTable;
 
 public class AlarmClockFrame extends JFrame {
 	
@@ -92,28 +98,6 @@ public class AlarmClockFrame extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
-		
-		// Table of active alarms - just because I can
-		table = new JTable();
-		final String[] COLUMN_HEADERS = {"Time", "Message"};
-		Timer tableTimer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String[][] data = new String[alarms.size()][2];
-				int i = 0;
-				for(Alarm al : alarms){
-					data[i][0] = al.getDate().toString();
-					data[i][1] = al.getMessage();
-					i++;
-				}
-				table = new JTable(data, COLUMN_HEADERS);
-			}
-		});
-		tableTimer.setRepeats(true);
-		tableTimer.setCoalesce(true);
-		tableTimer.setInitialDelay(0);
-		tableTimer.start();
-		panel.add(table);
 
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -143,8 +127,6 @@ public class AlarmClockFrame extends JFrame {
 	 * The path to the audio clip.
 	 */
 	private static final String AUDIO_CLIP_PATH = "air_horn.wav";
-
-	private JTable table;
 
 	/**
 	 * Loads the audio clip from the file located at AUDIO_CLIP_PATH and creates it into a Clip.

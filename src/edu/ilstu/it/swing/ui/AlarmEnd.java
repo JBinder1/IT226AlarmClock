@@ -1,5 +1,14 @@
 /**
+ * AlarmEnd JDialog
  * Project: IT226GroupProject2
+ * 
+ * Acts as a pop-up alert when an alarm ends.
+ * Displays the alarm's set time, number of
+ * snoozes, and a custom message if there is one.
+ * Allows user to snooze for 1 minute or dismiss
+ * alarm, which deletes it from memory and the XML
+ * storage.
+ * 
  * @author Jarred Binder
  * Created Apr 6, 2017 1:40:19 PM
  */

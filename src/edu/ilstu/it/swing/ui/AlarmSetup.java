@@ -1,6 +1,12 @@
 /**
+ * AlarmSetup JDialog
  * Project: IT226GroupProject2
- * @author Jarred/Jerry Binder
+ * 
+ * Allows user to set a one-time alarm that
+ * goes off at a specific time and date.
+ * It can also contain an optional message.
+ * 
+ * @author Jarred Binder
  * Created Apr 6, 2017 1:40:39 PM
  */
 package edu.ilstu.it.swing.ui;
