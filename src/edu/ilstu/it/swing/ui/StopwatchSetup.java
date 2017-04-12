@@ -86,9 +86,8 @@ public class StopwatchSetup extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						// User can submit this without a message, but they must have something in minutes
 						if(!textFieldMinutes.getText().isEmpty()){
-							// TODO have this createAlarm call put alarms wherever alarms go
 							try{
-								AlarmFactory.createAlarm(Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText());
+								AlarmFactory.createStopwatch(Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText());
 							}catch(Exception e){ e.printStackTrace(); }
 							
 							setVisible(false);

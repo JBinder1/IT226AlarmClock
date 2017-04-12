@@ -108,7 +108,6 @@ public class AlarmSetup extends JDialog {
 							// this puts it in this DateFormat: "MM d yyyy HH:mm a"
 							String rawDate = month + " " + day + " " + year + " " + textFieldHour.getText() + ":" + textFieldMinute.getText() + " " + amPm;
 							
-							// TODO have this createAlarm call put alarms wherever alarms go
 							try {
 								AlarmFactory.createAlarm(rawDate, textFieldMessage.getText());
 							} catch (Exception e1) { e1.printStackTrace(); }
