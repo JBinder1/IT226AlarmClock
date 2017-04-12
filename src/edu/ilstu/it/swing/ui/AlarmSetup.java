@@ -105,9 +105,6 @@ public class AlarmSetup extends JDialog {
 					int year = (textFieldYear.getText().isEmpty()) ? cal.get(Calendar.YEAR) : Integer.parseInt(textFieldYear.getText());
 					int hour = Integer.parseInt(textFieldHour.getText());
 					String amPm = (radioAm.isSelected()) ? "AM" : "PM";
-					
-					if(radioPm.isSelected())
-						hour = hour + 12;
 							
 					// this puts it in this DateFormat: "MM d yyyy HH:mm a"
 					String rawDate = month + " " + day + " " + year + " " + hour + ":" + textFieldMinute.getText() + " " + amPm;

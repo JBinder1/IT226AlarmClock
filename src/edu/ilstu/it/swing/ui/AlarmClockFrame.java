@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import edu.ilstu.it.alarms.Alarm;
-import edu.ilstu.it.alarms.AlarmFactory;
 import edu.ilstu.it.alarms.AlarmIO;
 
 import java.awt.Label;
@@ -116,7 +115,6 @@ public class AlarmClockFrame extends JFrame {
 		tableTimer.start();
 		panel.add(table);
 
-		final AlarmClockFrame frame = this;
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

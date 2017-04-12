@@ -69,6 +69,7 @@ public final class AlarmIO {
 		@XmlElement(name = "alarm")
 		private List<Alarm> alarms = null;
 
+		@SuppressWarnings("unused")
 		public Alarms() {
 		}
 

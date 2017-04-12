@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import edu.ilstu.it.alarms.Alarm;
-import edu.ilstu.it.alarms.AlarmFactory;
 import edu.ilstu.it.alarms.AlarmIO;
 
 import javax.swing.JLabel;
@@ -88,7 +87,6 @@ public class AlarmEnd extends JDialog {
 		JButton btnDismiss = new JButton("Dismiss Alarm");
 		btnDismiss.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO end alarm, stop sound, remove from alarms.xml
 				frame.removeAlarm(alarm);
 				AlarmIO.saveAlarms(frame.getAlarms());
 				clip.close();	// Ends clip playback immediately
