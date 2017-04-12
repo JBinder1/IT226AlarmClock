@@ -1,3 +1,13 @@
+/**
+ * AlarmIO
+ * Project: IT226GroupProject2
+ * 
+ * Handles storage of Alarms in XML files.
+ * Contains method to load/reload from file
+ * and save/overwrite to file.
+ * 
+ * @author Ryan Greene
+ */
 package edu.ilstu.it.alarms;
 
 import javax.xml.bind.JAXBContext;

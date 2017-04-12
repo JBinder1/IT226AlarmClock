@@ -1,3 +1,12 @@
+/**
+ * AlarmFactory
+ * Project: IT226GroupProject2
+ * 
+ * Handles creation of Alarms from several
+ * combinations of parameters.
+ * 
+ * @author Ryan Greene
+ */
 package edu.ilstu.it.alarms;
 
 import java.text.DateFormat;

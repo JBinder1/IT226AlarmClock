@@ -1,3 +1,14 @@
+/**
+ * Alarm
+ * Project: IT226GroupProject2
+ * 
+ * Object containing the Date, message, and 
+ * snooze count of an alarm. Also contains
+ * the Timer that sets the alarm off at the 
+ * time it's set for.
+ * 
+ * @author Ryan Greene
+ */
 package edu.ilstu.it.alarms;
 
 import java.awt.event.ActionEvent;
