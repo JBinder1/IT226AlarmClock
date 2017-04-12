@@ -12,32 +12,29 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import edu.ilstu.it.alarms.AlarmFactory;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-/**
- * @author jarre
- *
- */
 public class StopwatchSetup extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldMinutes;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
+		try{
 			StopwatchSetup dialog = new StopwatchSetup();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -48,57 +45,64 @@ public class StopwatchSetup extends JDialog {
 	public StopwatchSetup() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Stopwatch Setup");
-		setBounds(100, 100, 434, 148);
+		setBounds(100, 100, 550, 148);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		{
-			JLabel lblAlarmTimein = new JLabel("Stopwatch Time (in minutes):");
-			lblAlarmTimein.setBounds(14, 13, 139, 14);
-			lblAlarmTimein.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(lblAlarmTimein);
-		}
-		{
-			textFieldMinutes = new JTextField();
-			textFieldMinutes.setBounds(156, 10, 90, 20);
-			contentPanel.add(textFieldMinutes);
-			textFieldMinutes.setColumns(15);
-		}
-		{
-			JLabel lblCustomMessageoptional = new JLabel("Custom Message (Optional):");
-			lblCustomMessageoptional.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblCustomMessageoptional.setBounds(12, 44, 141, 14);
-			contentPanel.add(lblCustomMessageoptional);
-		}
-		{
-			textField = new JTextField();
-			textField.setBounds(156, 41, 250, 20);
-			contentPanel.add(textField);
-			textField.setColumns(10);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO have this create a new stopwatch with the # of minutes entered
-						// TODO and then close this window
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+		
+		JLabel lblAlarmTimein = new JLabel("Stopwatch Time (in minutes):");
+		lblAlarmTimein.setBounds(14, 13, 170, 14);
+		lblAlarmTimein.setHorizontalAlignment(SwingConstants.RIGHT);
+		contentPanel.add(lblAlarmTimein);
+		
+		JTextField textFieldMinutes = new JTextField();
+		textFieldMinutes.setBounds(194, 10, 111, 20);
+		contentPanel.add(textFieldMinutes);
+		textFieldMinutes.setColumns(15);
+		
+		JLabel lblCustomMessage = new JLabel("Custom Message (optional):");
+		lblCustomMessage.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCustomMessage.setBounds(14, 44, 170, 14);
+		contentPanel.add(lblCustomMessage);
+		
+		JTextField textFieldCustomMessage = new JTextField();
+		textFieldCustomMessage.setBounds(194, 41, 330, 20);
+		contentPanel.add(textFieldCustomMessage);
+		textFieldCustomMessage.setColumns(10);
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// User can submit this without a message, but they must have something in minutes
+				if(!textFieldMinutes.getText().isEmpty()){
+					try{
+						AlarmFactory.createStopwatch(Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText());
+					}catch(Exception e){ e.printStackTrace(); }
+					
+					setVisible(false);
+					dispose();
+				}
 			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+		});
+			
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+				dispose();
 			}
-		}
+		});
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);		
 	}
-
 }
+
+
