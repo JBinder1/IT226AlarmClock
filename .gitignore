@@ -6,6 +6,7 @@ tmp/
 *.swp
 *~.nib
 *.class
+*.xml
 local.properties
 .settings/
 .loadpath
