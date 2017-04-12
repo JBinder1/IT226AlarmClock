@@ -14,6 +14,10 @@ import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import edu.ilstu.it.alarms.Alarm;
+import edu.ilstu.it.alarms.AlarmFactory;
+
 import java.awt.Label;
 import java.awt.Font;
 import javax.swing.Timer;
@@ -23,6 +27,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
+import javax.swing.JTable;
 
 public class AlarmClockFrame extends JFrame {
 	
@@ -75,6 +80,32 @@ public class AlarmClockFrame extends JFrame {
 		
 		JButton btnExit = new JButton("Exit");
 		panelButtons.add(btnExit, BorderLayout.SOUTH);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		
+		// Table of active alarms - just because I can
+		table = new JTable();
+		final String[] COLUMN_HEADERS = {"Time", "Message"};
+		Timer tableTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String[][] data = new String[AlarmFactory.alarmStorage.size()][2];
+				int i = 0;
+				for(Alarm al : AlarmFactory.alarmStorage){
+					data[i][0] = al.getDate().toString();
+					data[i][1] = al.getMessage();
+					i++;
+				}
+				table = new JTable(data, COLUMN_HEADERS);
+			}
+		});
+		tableTimer.setRepeats(true);
+		tableTimer.setCoalesce(true);
+		tableTimer.setInitialDelay(0);
+		tableTimer.start();
+		panel.add(table);
+		
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -94,6 +125,7 @@ public class AlarmClockFrame extends JFrame {
 	}
 
 	private static final String AUDIO_CLIP_PATH = "air_horn.wav";
+	private JTable table;
 
 	public static Clip getAudioClip() {
 		try {
@@ -114,15 +146,15 @@ public class AlarmClockFrame extends JFrame {
 	 */
 	private void startClock(Label labelCurrentTime){
 		// Sets up a label that displays current time, and refreshes every second.
-		Timer timer = new Timer(1000, new ActionListener() {
+		Timer clockTimer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				labelCurrentTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
 			}
 		});
-		timer.setRepeats(true);
-		timer.setCoalesce(true);
-		timer.setInitialDelay(0);
-		timer.start();
+		clockTimer.setRepeats(true);
+		clockTimer.setCoalesce(true);
+		clockTimer.setInitialDelay(0);
+		clockTimer.start();
 	}
 }

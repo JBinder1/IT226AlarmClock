@@ -25,8 +25,6 @@ public class StopwatchSetup extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldMinutes;
-	private JTextField textFieldCustomMessage;
 
 	/**
 	 * Launch the application.
@@ -52,66 +50,59 @@ public class StopwatchSetup extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		{
-			JLabel lblAlarmTimein = new JLabel("Stopwatch Time (in minutes):");
-			lblAlarmTimein.setBounds(14, 13, 170, 14);
-			lblAlarmTimein.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(lblAlarmTimein);
-		}
-		{
-			textFieldMinutes = new JTextField();
-			textFieldMinutes.setBounds(194, 10, 111, 20);
-			contentPanel.add(textFieldMinutes);
-			textFieldMinutes.setColumns(15);
-		}
-		{
-			JLabel lblCustomMessage = new JLabel("Custom Message (optional):");
-			lblCustomMessage.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblCustomMessage.setBounds(14, 44, 170, 14);
-			contentPanel.add(lblCustomMessage);
-		}
-		{
-			textFieldCustomMessage = new JTextField();
-			textFieldCustomMessage.setBounds(194, 41, 330, 20);
-			contentPanel.add(textFieldCustomMessage);
-			textFieldCustomMessage.setColumns(10);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						// User can submit this without a message, but they must have something in minutes
-						if(!textFieldMinutes.getText().isEmpty()){
-							try{
-								AlarmFactory.createStopwatch(Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText());
-							}catch(Exception e){ e.printStackTrace(); }
-							
-							setVisible(false);
-							dispose();
-						}
-					}
-				});
-				
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+		
+		JLabel lblAlarmTimein = new JLabel("Stopwatch Time (in minutes):");
+		lblAlarmTimein.setBounds(14, 13, 170, 14);
+		lblAlarmTimein.setHorizontalAlignment(SwingConstants.RIGHT);
+		contentPanel.add(lblAlarmTimein);
+		
+		JTextField textFieldMinutes = new JTextField();
+		textFieldMinutes.setBounds(194, 10, 111, 20);
+		contentPanel.add(textFieldMinutes);
+		textFieldMinutes.setColumns(15);
+		
+		JLabel lblCustomMessage = new JLabel("Custom Message (optional):");
+		lblCustomMessage.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCustomMessage.setBounds(14, 44, 170, 14);
+		contentPanel.add(lblCustomMessage);
+		
+		JTextField textFieldCustomMessage = new JTextField();
+		textFieldCustomMessage.setBounds(194, 41, 330, 20);
+		contentPanel.add(textFieldCustomMessage);
+		textFieldCustomMessage.setColumns(10);
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// User can submit this without a message, but they must have something in minutes
+				if(!textFieldMinutes.getText().isEmpty()){
+					try{
+						AlarmFactory.createStopwatch(Integer.parseInt(textFieldMinutes.getText()), textFieldCustomMessage.getText());
+					}catch(Exception e){ e.printStackTrace(); }
+					
+					setVisible(false);
+					dispose();
+				}
 			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						setVisible(false);
-						dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+		});
+			
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+				dispose();
 			}
-		}
+		});
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);		
 	}
-
 }
+
+

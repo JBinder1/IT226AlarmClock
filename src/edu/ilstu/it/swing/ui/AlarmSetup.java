@@ -66,14 +66,14 @@ public class AlarmSetup extends JDialog {
 		getContentPane().add(panelExterior, BorderLayout.CENTER);
 		panelExterior.setLayout(new BoxLayout(panelExterior, BoxLayout.X_AXIS));
 		
-		JPanel panel_1 = new JPanel();
-		panelExterior.add(panel_1);
-		panel_1.setLayout(null);
+		JPanel panelInterior = new JPanel();
+		panelExterior.add(panelInterior);
+		panelInterior.setLayout(null);
 		
 		JPanel panelRadio = new JPanel();
 		panelRadio.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelRadio.setBounds(224, 73, 150, 47);
-		panel_1.add(panelRadio);
+		panelInterior.add(panelRadio);
 		panelRadio.setLayout(null);
 		
 		JRadioButton radioAm = new JRadioButton("AM");
@@ -89,112 +89,113 @@ public class AlarmSetup extends JDialog {
 		radioButtonGroup.add(radioAm);
 		radioButtonGroup.add(radioPm);
 		
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						// Nothing happens if you don't at least have hour and minute filled out.
-						// If that's the case, it'll assume the current date for the other fields.
-						if(!textFieldHour.getText().isEmpty() && !textFieldMinute.getText().isEmpty()){
-							int day = (textFieldDay.getText().isEmpty()) ? cal.get(Calendar.DAY_OF_MONTH) : Integer.parseInt(textFieldDay.getText());
-							int month = (textFieldMonth.getText().isEmpty()) ? cal.get(Calendar.MONTH) : Integer.parseInt(textFieldMonth.getText());
-							int year = (textFieldYear.getText().isEmpty()) ? cal.get(Calendar.YEAR) : Integer.parseInt(textFieldYear.getText());
-							String amPm = (radioAm.isSelected()) ? "AM" : "PM";
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Nothing happens if you don't at least have hour and minute filled out.
+				// If that's the case, it'll assume the current date for the other fields.
+				if(!textFieldHour.getText().isEmpty() && !textFieldMinute.getText().isEmpty()){
+					int day = (textFieldDay.getText().isEmpty()) ? cal.get(Calendar.DAY_OF_MONTH) : Integer.parseInt(textFieldDay.getText());
+					int month = (textFieldMonth.getText().isEmpty()) ? cal.get(Calendar.MONTH)+1 : Integer.parseInt(textFieldMonth.getText());
+					int year = (textFieldYear.getText().isEmpty()) ? cal.get(Calendar.YEAR) : Integer.parseInt(textFieldYear.getText());
+					int hour = Integer.parseInt(textFieldHour.getText());
+					String amPm = (radioAm.isSelected()) ? "AM" : "PM";
+					
+					if(radioPm.isSelected())
+						hour = hour + 12;
 							
-							// this puts it in this DateFormat: "MM d yyyy HH:mm a"
-							String rawDate = month + " " + day + " " + year + " " + textFieldHour.getText() + ":" + textFieldMinute.getText() + " " + amPm;
+					// this puts it in this DateFormat: "MM d yyyy HH:mm a"
+					String rawDate = month + " " + day + " " + year + " " + hour + ":" + textFieldMinute.getText() + " " + amPm;
+					
+					try {
+						AlarmFactory.createAlarm(rawDate, textFieldMessage.getText());
+					} catch (Exception e1) { e1.printStackTrace(); }
 							
-							try {
-								AlarmFactory.createAlarm(rawDate, textFieldMessage.getText());
-							} catch (Exception e1) { e1.printStackTrace(); }
-							
-							setVisible(false);
-							dispose();
-						}
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+					setVisible(false);
+					dispose();
+				}
 			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						setVisible(false);
-						dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+		});
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+					
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
 			}
-		}
+		});
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
 		
 		JLabel lblDay = new JLabel("Day:");
 		lblDay.setBounds(10, 11, 70, 14);
-		panel_1.add(lblDay);
+		panelInterior.add(lblDay);
 		lblDay.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textFieldDay = new JTextField();
 		textFieldDay.setText(""+cal.get(Calendar.DAY_OF_MONTH));
 		textFieldDay.setBounds(90, 8, 86, 20);
-		panel_1.add(textFieldDay);
+		panelInterior.add(textFieldDay);
 		textFieldDay.setColumns(10);
 		
 		JLabel lblMonth = new JLabel("Month(#):");
 		lblMonth.setBounds(10, 42, 70, 14);
-		panel_1.add(lblMonth);
+		panelInterior.add(lblMonth);
 		lblMonth.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textFieldMonth = new JTextField();
-		textFieldMonth.setText(""+cal.get(Calendar.MONTH));
+		textFieldMonth.setText(String.valueOf(cal.get(Calendar.MONTH)+1));	
+		// Calendar's month value is indexed and starts at 0, hence the +1
 		textFieldMonth.setBounds(90, 39, 86, 20);
-		panel_1.add(textFieldMonth);
+		panelInterior.add(textFieldMonth);
 		textFieldMonth.setColumns(10);
 		
 		JLabel lblYear = new JLabel("Year:");
 		lblYear.setBounds(10, 73, 70, 14);
-		panel_1.add(lblYear);
+		panelInterior.add(lblYear);
 		lblYear.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textFieldYear = new JTextField();
 		textFieldYear.setText(""+cal.get(Calendar.YEAR));
 		textFieldYear.setBounds(90, 70, 86, 20);
-		panel_1.add(textFieldYear);
+		panelInterior.add(textFieldYear);
 		textFieldYear.setColumns(10);
 		
 		JLabel lblHour = new JLabel("Hour:");
 		lblHour.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblHour.setBounds(186, 11, 92, 14);
-		panel_1.add(lblHour);
+		panelInterior.add(lblHour);
 		
 		textFieldHour = new JTextField();
 		textFieldHour.setBounds(288, 8, 86, 20);
-		panel_1.add(textFieldHour);
+		panelInterior.add(textFieldHour);
 		textFieldHour.setColumns(10);
 		
 		JLabel lblMinute = new JLabel("Minute:");
 		lblMinute.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMinute.setBounds(186, 42, 92, 14);
-		panel_1.add(lblMinute);
+		panelInterior.add(lblMinute);
 		
 		textFieldMinute = new JTextField();
 		textFieldMinute.setBounds(288, 39, 86, 20);
-		panel_1.add(textFieldMinute);
+		panelInterior.add(textFieldMinute);
 		textFieldMinute.setColumns(10);
 		
 		JLabel lblMessage = new JLabel("Message:");
 		lblMessage.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMessage.setBounds(10, 134, 70, 14);
-		panel_1.add(lblMessage);
+		panelInterior.add(lblMessage);
 		
 		textFieldMessage = new JTextField();
 		textFieldMessage.setBounds(90, 131, 284, 20);
-		panel_1.add(textFieldMessage);
+		panelInterior.add(textFieldMessage);
 		textFieldMessage.setColumns(10);
 	}
 }

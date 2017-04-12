@@ -19,7 +19,6 @@ import edu.ilstu.it.alarms.AlarmFactory;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -29,7 +28,7 @@ public class AlarmEnd extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblSnoozedTimes;
 	private JLabel lblAlarmDetails;
-	private JTextArea textAreaCustomMessage;
+	private JLabel lblCustomMessage;
 	private Alarm alarm;
 	
 
@@ -50,12 +49,17 @@ public class AlarmEnd extends JDialog {
 	 * Create the dialog.
 	 */
 	public AlarmEnd() {
+		alarm = null;
+		
 		setTitle("Alarm - Time's Up!");
 		setBounds(100, 100, 484, 163);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
+		setVisible(true);
+		setAlwaysOnTop(true);
+		
 		
 		// Plays an alarm clip until the window is closed
 		final Clip clip = AlarmClockFrame.getAudioClip();
@@ -63,7 +67,6 @@ public class AlarmEnd extends JDialog {
 		
 		lblSnoozedTimes = new JLabel("You've Snoozed This Alarm 0 Times");
 		lblSnoozedTimes.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSnoozedTimes.setVisible(false);
 		contentPanel.add(lblSnoozedTimes, BorderLayout.SOUTH);
 		
 		
@@ -71,19 +74,11 @@ public class AlarmEnd extends JDialog {
 		lblAlarmDetails.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPanel.add(lblAlarmDetails, BorderLayout.CENTER);
 		
-		textAreaCustomMessage = new JTextArea();
-		textAreaCustomMessage.setEditable(false);
-		contentPanel.add(textAreaCustomMessage, BorderLayout.NORTH);
-		textAreaCustomMessage.setVisible(false);
-		
 		// If we want to use a label to display the message instead of a TextArea
-//		JLabel lblCustomMessage = new JLabel(alarm.getMessage());
-//		lblCustomMessage.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblCustomMessage.setVisible(false);
-//		contentPanel.add(lblCustomMessage, BorderLayout.NORTH);
-//		if(!alarm.getMessage().isEmpty()){
-//			lblCustomMessage.setVisible(true);
-//		}
+		lblCustomMessage = new JLabel();
+		lblCustomMessage.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCustomMessage.setVisible(false);
+		contentPanel.add(lblCustomMessage, BorderLayout.NORTH);
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -94,7 +89,7 @@ public class AlarmEnd extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO end alarm, stop sound, remove from alarms.xml
 				AlarmFactory.deleteAlarm(alarm);
-				clip.close();
+				clip.close();	// Ends clip playback immediately
 				setVisible(false);
 				dispose();
 			}
@@ -105,9 +100,9 @@ public class AlarmEnd extends JDialog {
 		JButton btnSnooze = new JButton("Snooze (1 Minute)");
 		btnSnooze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clip.close();
+				clip.close();	// Ends clip playback immediately
 				if(AlarmFactory.alarmStorage.contains(alarm))
-					AlarmFactory.alarmStorage.get(AlarmFactory.alarmStorage.indexOf(alarm));
+					AlarmFactory.alarmStorage.get(AlarmFactory.alarmStorage.indexOf(alarm)).snooze();
 				setVisible(false);
 				dispose();
 			}
@@ -119,14 +114,16 @@ public class AlarmEnd extends JDialog {
 	public void displayAlarm(Alarm alarm){
 		this.alarm = alarm;
 		
+		lblAlarmDetails.setText("This Alarm was set to go off at: " + alarm.getDate().toString());
+		
 		if(alarm.getSnoozeCount() > 0){
-			lblSnoozedTimes.setVisible(true);
 			lblSnoozedTimes.setText("You've Snoozed This Alarm " + alarm.getSnoozeCount() + " Times");
+			lblSnoozedTimes.setVisible(true);
 		}
 		
 		if(!alarm.getMessage().isEmpty()){
-			textAreaCustomMessage.setText("This Alarm was set to go off at: " + alarm.getDate().toString());
-			textAreaCustomMessage.setVisible(true);
+			lblCustomMessage.setText(alarm.getMessage());
+			lblCustomMessage.setVisible(true);
 		}
 	}
 
